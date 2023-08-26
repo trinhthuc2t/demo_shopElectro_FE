@@ -14,6 +14,7 @@ function getAdm() {
         }
     });
 }
+getAdm();
 function showAdm(arr) {
     let str = "";
     for (const a of arr) {
@@ -26,6 +27,4 @@ function showAdm(arr) {
     }
     document.getElementById("showAdm").innerHTML = str;
 }
-
-getAdm()
 
