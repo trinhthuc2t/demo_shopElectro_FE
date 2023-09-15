@@ -49,6 +49,8 @@
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
                 <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                <button id="logout-button">Logout</button>
+
             </ul>
         </div>
     </div>
@@ -247,27 +249,165 @@
         <!-- row -->
         <div class="row">
 
-            <!-- section title -->
-            <div class="col-md-12">
-                <div class="section-title">
-                    <h3 class="title">New Products</h3>
-                    <div class="section-nav">
-                        <ul class="section-tab-nav tab-nav">
-                            <li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Smartphones</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Cameras</a></li>
-                            <li><a data-toggle="tab" href="#tab1">Accessories</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- /section title -->
-
 
             <!-- Products tab & slick (news product)-->
 
             <div class="container">
-                <h2>Striped Rows</h2>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Add Product
+                </button>
+                <div class="row">
+                    <div class="modal fade col-8" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="name">Tên SP</label>
+                                                <input type="text" class="form-control" id="name" placeholder="Tên SP">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="img">Ảnh SP</label>
+                                                <input type="text" class="form-control" id="img" placeholder="Ảnh SP">
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="quantity">Số lượng SP</label>
+                                                <input type="text" class="form-control" id="quantity"
+                                                       placeholder="Số lượng SP">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="price">Giá SP</label>
+                                                <input type="text" class="form-control" id="price" placeholder="Giá SP">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-row">
+
+                                            <div class="form-group col-md-6">
+                                                <label for="categoryId">Loại</label>
+                                                <select id="categoryId" class="form-control">
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="brandId">Hãng</label>
+                                                <select id="brandId" class="form-control">
+
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-12">
+                                                <label for="detail">Chi tiết SP</label>
+                                                <input type="text" class="form-control" id="detail" placeholder="Chi tiết">
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button onclick="add()" class="btn btn-primary" data-dismiss="modal">Save changes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="modal fade col-8" id="exampleModalE" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabelE">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6" hidden="hidden">
+                                                <label for="idE">id</label>
+                                                <input type="text" class="form-control" id="idE" readonly>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="nameE">Tên SP</label>
+                                                <input type="text" class="form-control" id="nameE" placeholder="Tên SP">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="imgE">Ảnh SP</label>
+                                                <input type="text" class="form-control" id="imgE" placeholder="Ảnh SP">
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="quantityE">Số lượng SP</label>
+                                                <input type="text" class="form-control" id="quantityE"
+                                                       placeholder="Số lượng SP">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="priceE">Giá SP</label>
+                                                <input type="text" class="form-control" id="priceE" placeholder="Giá SP">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-row">
+
+                                            <div class="form-group col-md-6">
+                                                <label for="categoryIdE">Loại</label>
+                                                <select id="categoryIdE" class="form-control">
+
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="brandIdE">Hãng</label>
+                                                <select id="brandIdE" class="form-control">
+
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-12">
+                                                <label for="detailE">Chi tiết SP</label>
+                                                <input type="text" class="form-control" id="detailE" placeholder="Chi tiết">
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button onclick="edit()" class="btn btn-primary" data-dismiss="modal">Save changes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -278,12 +418,12 @@
                     </thead>
                     <tbody id="showAdm">
 
+
                     </tbody>
                 </table>
             </div>
         </div>
         <!-- /product -->
-
 
 
         <!-- Products tab & slick -->
@@ -770,3 +910,5 @@
 
 </body>
 </html>
+
+<script src="js/adm.js"></script>

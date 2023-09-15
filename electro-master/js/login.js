@@ -1,89 +1,80 @@
+let token = localStorage.getItem('AccountToken');
 
-$(document).ready(function () {
 
     // Gắn sự kiện click cho nút Đăng Nhập
+    $("#loginPassword").on('keypress', function (e) {
+        if (e.key === 'Enter')
+            loginAndCheckUserRole();
+    });
     $("#login-button").click(function () {
-        loginAndCheckUserRole();
+            loginAndCheckUserRole();
     });
 
     // Gắn sự kiện click cho nút Đăng Xuất
     $("#logout-button").click(function () {
         logoutAndCheckUserRole();
     });
-});
 
 
-function showAdmin() {
-    window.location.href = "index2.html";
-    document.getElementById("product-list").style.display = "block";
-    document.getElementById("product-crud").style.display = "none";
-    // $("#user-info").html("<p>Chào Admin!</p>");
-    // $("#product-crud").show();
-    // $("#product-list").hide();
-}
 
-function showUser() {
-    window.location.href = "index2.html";
-    document.getElementById("product-list").style.display = "none";
-    document.getElementById("product-crud").style.display = "block";
-    // $("#user-info").html("<p>Xin chào User!</p>");
-    // $("#product-crud").hide();
-    // $("#product-list").show();
-}
 
-function showDefault() {
-    window.location.href = "index2.html";
-    document.getElementById("product-list").style.display = "none";
-    document.getElementById("product-crud").style.display = "block";
-    // $("#user-info").html("<p>Chưa đăng nhập!</p>");
-    // $("#product-crud").hide();
-    // $("#product-list").hide();
-}
+
 
 function loginAndCheckUserRole() {
 
-    let username = document.getElementById("loginUsername").value;
+    let username =$("#loginUsername").val();
     let password = document.getElementById("loginPassword").value;
 
     let account = {username, password};
     $.ajax({
         type: "POST",
         headers: {
-            'Content-Type': 'application/json'
-        },
-        url: "http://localhost:8080/accounts/login?username=" + username + "&password=" + password,
-        data: JSON.stringify(account),
+            'Content-Type': 'application/json', //dữ liệu gửi lên sever dạng json
+            'Accept': 'application/json', //dữ liệu nhận về từ sever dạng json
 
+        },
+        url: "http://localhost:8080/login",
+        data: JSON.stringify(account), //dữ liệu gửi lên sever với kiểu dữ liệu
         success: function (data) {
-            if (data.role.name === "admin") {
-                // Hiển thị giao diện quản lý sản phẩm
-                showAdmin();
-            } else if (data.role === "user") {
-                // Hiển thị danh sách sản phẩm
-                showUser();
-            } else {
-                // Hiển thị giao diện mặc định (chưa đăng nhập)
-                showDefault();
-            }
+            localStorage.setItem("AccountToken",JSON.stringify(data));
+           checkRole(data)
+
         },
         error: function () {
             // Xử lý lỗi đăng nhập
             alert("Đăng nhập thất bại!");
+            location.href = "login.html";
+
         }
     });
 }
 
-// function logoutAndCheckUserRole() {
-//     $.ajax({
-//         url: "/accounts/logout",
-//         type: "POST",
-//         success: function () {
-//             // Đăng xuất thành công, kiểm tra và hiển thị lại UI
-//             checkUserRoleAndShowUI();
-//         },
-//         error: function () {
-//             // Xử lý lỗi đăng xuất
-//             alert("Đăng xuất thất bại!");
-//         }
-//     });
-// }
+function checkRole(data){
+    if (data.roles.name === "ROLE_ADMIN") {
+        window.location.href = "admProduct.html";
+
+    } else if (data.roles.name === "ROLE_USER") {
+        window.location.href = "index.html";
+    } else {
+        window.location.href = "index.html";
+
+    }
+}
+
+
+function logoutAndCheckUserRole() {
+    $.ajax({
+        url: "/accounts/logout",
+        type: "POST",
+        success: function () {
+            // Đăng xuất thành công, kiểm tra và hiển thị lại UI
+            alert("ok")
+            location.href = "index.html";
+
+        },
+        error: function () {
+            // Xử lý lỗi đăng xuất
+            alert("Đăng xuất thất bại!");
+        }
+    });
+}
