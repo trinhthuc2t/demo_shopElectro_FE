@@ -50,8 +50,8 @@
 					<ul class="header-links pull-right">
 						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
 						<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-						<button id="logout-button" >Logout</button>
-						<button id="login-button">Login</button>
+						<button id="logout-button">Logout</button>
+						<button id="login-button"><a href="login.html">Login</a></button>
 					</ul>
 				</div>
 			</div>
@@ -242,7 +242,7 @@
 
 									</div>
 								</div>
-								<button class="add-to-cart-btn" onclick="addCart(idPro)"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
+								<button class="add-to-cart-btn" onclick="checkToken(idPro)"><i class="fa fa-shopping-cart"></i> Thêm giỏ hàng</button>
 							</div>
 
 							<ul class="product-btns">
@@ -417,7 +417,7 @@
 										<!-- Review Form -->
 										<div class="col-md-3">
 											<div id="review-form">
-												<form class="review-form">
+												<div class="review-form">
 
 													<textarea class="input" placeholder="Your Review" id="input-cmt"></textarea>
 													<div class="input-rating">
@@ -431,7 +431,7 @@
 														</div>
 													</div>
 													<button class="primary-btn" onclick="saveCmt()">Submit</button>
-												</form>
+												</div>
 											</div>
 										</div>
 										<!-- /Review Form -->

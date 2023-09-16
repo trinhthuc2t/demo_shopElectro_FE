@@ -52,25 +52,7 @@ function deleteA(idA) {
         }
     });
 }
-function showEdit(id) {
-    $.ajax({
-        type: "GET",
-        headers: {
-            'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token,
-        },
-        url: "http://localhost:8080/products/" + id,
-        success: function (data) {
-            document.getElementById("idE").value = data.id;
-            document.getElementById("usernameE").value = data.username;
-            document.getElementById("passwordE").value = data.password;
-            document.getElementById("idRoleE").value = data.role.id;
-        },
-        error: function (err) {
-            console.log(err)
-        }
-    });
-}
+
 
 function getAllCategory() {
 
@@ -198,9 +180,13 @@ function showEdit(id) {
         type: "GET",
         headers: {
             'Accept': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token,
+
+
         },
         url: "http://localhost:8080/products/admin/" + id,
         success: function (data) {
+            console.log(data)
             document.getElementById("idE").value = data.id;
             document.getElementById("nameE").value = data.name;
             document.getElementById("priceE").value = data.price;

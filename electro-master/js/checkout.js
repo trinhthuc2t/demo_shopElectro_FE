@@ -82,7 +82,36 @@ function addOrder() {
     });
 
 }
+
+
+
+function logoutAndRedirect() {
+    // Xóa token khỏi localStorage
+    localStorage.removeItem('AccountToken');
+
+    // Điều hướng người dùng đến trang đăng nhập
+    window.location.href = "login.html";
+}
+
+
+$("#logout-button").click(function () {
+    logoutAndRedirect();
+});
+
 function getDateTimeNow() {
     let tzOffset = (new Date()).getTimezoneOffset() * 60000;
     return (new Date(Date.now() - tzOffset)).toISOString().slice(0, -1);
+}
+
+
+
+const logoutButton = document.getElementById("logout-button");
+const loginButton = document.getElementById("login-button");
+
+if (accountLogin !== null) {
+    logoutButton.style.display = "inline-block";
+    loginButton.style.display = "none";
+} else {
+    logoutButton.style.display = "none";
+    loginButton.style.display = "inline-block";
 }

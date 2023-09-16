@@ -2,14 +2,20 @@ const accountLogin = JSON.parse(localStorage.getItem("AccountToken"));
 const urlSearchParams = new URLSearchParams(window.location.search);
 const idPro = urlSearchParams.get('id');
 
-
+function checkToken(id){
+    if (accountLogin !== null){
+        addCart(id)
+    }else {
+        alert("Đăng nhập để thêm giỏ hàng")
+        window.location.href = "login.html";
+    }
+}
 function getAllImgPro(id) {
 
     return $.ajax({
         type: "Get",
         headers: {
             'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token
 
         },
         url: "http://localhost:8080/imgPro/" + id,
@@ -51,7 +57,6 @@ function getProduct(id) {
         type: "Get",
         headers: {
             'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token
 
         },
         url: "http://localhost:8080/products/by/" + id,
@@ -95,7 +100,7 @@ function showProduct(arr) {
         </div>
        </div>
        <div class="add-to-cart">
-        <button class="add-to-cart-btn" onclick="addCart(${a.id})"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
+        <button class="add-to-cart-btn" onclick="checkToken(${a.id})"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
        </div>
       </div>
      </div>
@@ -117,7 +122,9 @@ function addCart(id) {
         type: "GET",
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token
+
         },
         url: "http://localhost:8080/products/by/" + id,
         success: function (data) {
@@ -182,16 +189,7 @@ function showCartList(arr) {
     document.getElementById("quantityCart").innerText = cartLength;
     document.getElementById("cart-list").innerHTML = str;
 }
-const logoutButton = document.getElementById("logout-button");
-const loginButton = document.getElementById("login-button");
 
-if (accountLogin !== null) {
-    logoutButton.style.display = "inline-block";
-    loginButton.style.display = "none";
-} else {
-    logoutButton.style.display = "none";
-    loginButton.style.display = "inline-block";
-}
 
 
 function getAllCmt(id) {
@@ -200,8 +198,6 @@ function getAllCmt(id) {
         type: "Get",
         headers: {
             'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token
-
         },
         url: "http://localhost:8080/cmt/" + id,
         success: function (data) {
@@ -275,4 +271,30 @@ function saveCmt() {
 function getDateTimeNow() {
     let tzOffset = (new Date()).getTimezoneOffset() * 60000;
     return (new Date(Date.now() - tzOffset)).toISOString().slice(0, -1);
+}
+
+
+function logoutAndRedirect() {
+    // Xóa token khỏi localStorage
+    localStorage.removeItem('AccountToken');
+
+    // Điều hướng người dùng đến trang đăng nhập
+    window.location.href = "login.html";
+}
+
+
+$("#logout-button").click(function () {
+    logoutAndRedirect();
+});
+
+
+const logoutButton = document.getElementById("logout-button");
+const loginButton = document.getElementById("login-button");
+
+if (accountLogin !== null) {
+    logoutButton.style.display = "inline-block";
+    loginButton.style.display = "none";
+} else {
+    logoutButton.style.display = "none";
+    loginButton.style.display = "inline-block";
 }

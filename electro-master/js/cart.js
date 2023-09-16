@@ -14,40 +14,17 @@ function showCart() {
     }
     document.getElementById("show").innerHTML = str;
 }
-
-showCart();
+function checkLogin(){
+    if (accountLogin !== null)showCart();
+}
+checkLogin();
 
 function deleteCart(index) {
     cart.splice(index, 1);
     showCart();
     localStorage.setItem("cart", JSON.stringify(cart));
 }
-function addCart(id) {
-    $.ajax({
-        type: "GET",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        url: "http://localhost:8080/products/by/" + id,
-        success: function (data) {
-            let index = checkProductToCart(id);
-            if (index === -1) {
-                data.quantity = 1;
-                cart.push(data);
-            } else {
-                cart[index].quantity = parseInt(cart[index].quantity);
-            }
-            alert("Thêm thành công")
 
-            localStorage.setItem("cart", JSON.stringify(cart));
-        },
-
-        error: function (err) {
-            console.log(err)
-        }
-    });
-}
 function checkProductToCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id == id) {
@@ -81,4 +58,31 @@ function showCartList(arr) {
     document.getElementById("sum").innerText = sum;
     document.getElementById("quantityCart").innerText = cartLength;
     document.getElementById("cart-list").innerHTML = str;
+}
+
+
+
+function logoutAndRedirect() {
+    // Xóa token khỏi localStorage
+    localStorage.removeItem('AccountToken');
+
+    // Điều hướng người dùng đến trang đăng nhập
+    window.location.href = "login.html";
+}
+
+
+$("#logout-button").click(function () {
+    logoutAndRedirect();
+});
+
+
+const logoutButton = document.getElementById("logout-button");
+const loginButton = document.getElementById("login-button");
+
+if (accountLogin !== null) {
+    logoutButton.style.display = "inline-block";
+    loginButton.style.display = "none";
+} else {
+    logoutButton.style.display = "none";
+    loginButton.style.display = "inline-block";
 }

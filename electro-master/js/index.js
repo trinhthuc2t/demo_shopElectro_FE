@@ -7,8 +7,6 @@ function getAllProduct() {
         type: "Get",
         headers: {
             'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token
-
         },
         url: "http://localhost:8080/products",
         success: function (data) {
@@ -27,7 +25,6 @@ let name = document.getElementById("search").value;
         type: "Get",
         headers: {
             'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token
 
         },
         url: "http://localhost:8080/products/search/" + name,
@@ -51,7 +48,6 @@ function getAllProductByCategoryId(idCategory) {
         type: "Get",
         headers: {
             'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token
 
         },
         url: "http://localhost:8080/products/category/" + idCategory,
@@ -70,7 +66,6 @@ function getAllProductByBrandId(idBrand) {
         type: "Get",
         headers: {
             'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token
 
         },
         url: "http://localhost:8080/products/brand/" + idBrand,
@@ -91,7 +86,6 @@ function getAllCategory() {
         type: "Get",
         headers: {
             'Accept': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token
 
         },
         url: "http://localhost:8080/products/category",
@@ -122,7 +116,6 @@ function getAllCategory() {
             type: "Get",
             headers: {
                 'Accept': 'application/json',
-                "Authorization": "Bearer " + accountLogin.token
 
             },
             url: "http://localhost:8080/products/brand",
@@ -179,7 +172,7 @@ function getAllCategory() {
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                       <button class="add-to-cart-btn" onclick="addCart(${a.id})"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
+                                       <button class="add-to-cart-btn" onclick="checkToken(${a.id})"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                                     </div>
                                 </div>`
 
@@ -190,28 +183,27 @@ function getAllCategory() {
 
 let cart = localStorage.getItem("cart") == null ? [] : JSON.parse(localStorage.getItem("cart"));
 
-function logoutAndRedirect() {
-    // Xóa token khỏi localStorage
-    localStorage.removeItem('token');
-
-    // Điều hướng người dùng đến trang đăng nhập
-    window.location.href = "login.html";
-}
-
-
-$("#logout-button").click(function () {
-    logoutAndRedirect();
-});
 
 let arr2 = JSON.parse(localStorage.getItem("list"));
 showProduct(arr2);
 
+
+function checkToken(id){
+    if (accountLogin !== null){
+        addCart(id)
+    }else {
+        alert("Đăng nhập để thêm giỏ hàng")
+        window.location.href = "login.html";
+    }
+}
 function addCart(id) {
     $.ajax({
         type: "GET",
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token
+
         },
         url: "http://localhost:8080/products/by/" + id,
         success: function (data) {
@@ -265,4 +257,30 @@ function showCartList(arr) {
     document.getElementById("sum").innerText = sum;
     document.getElementById("quantityCart").innerText = cartLength;
     document.getElementById("cart-list").innerHTML = str;
+}
+
+
+function logoutAndRedirect() {
+    // Xóa token khỏi localStorage
+    localStorage.removeItem('AccountToken');
+
+    // Điều hướng người dùng đến trang đăng nhập
+    window.location.href = "login.html";
+}
+
+
+$("#logout-button").click(function () {
+    logoutAndRedirect();
+});
+
+
+const logoutButton = document.getElementById("logout-button");
+const loginButton = document.getElementById("login-button");
+
+if (accountLogin !== null) {
+    logoutButton.style.display = "inline-block";
+    loginButton.style.display = "none";
+} else {
+    logoutButton.style.display = "none";
+    loginButton.style.display = "inline-block";
 }

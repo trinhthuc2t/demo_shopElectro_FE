@@ -1,8 +1,13 @@
+let accountLogin = JSON.parse(localStorage.getItem("AccountToken"));
+
+
 function getAll() {
     $.ajax({
         type: "GET",
         headers: {
             'Accept': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token,
+
         },
         url: "http://localhost:8080/accounts",
         success: function (data) {
@@ -37,6 +42,8 @@ function deleteA(idA) {
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/accounts/delete/" + idA,
+        "Authorization": "Bearer " + accountLogin.token,
+
         success: function (data) {
             getAll();
         },
@@ -46,20 +53,48 @@ function deleteA(idA) {
     });
 }
 
-
+function showEdit(id) {
+    $.ajax({
+        type: "GET",
+        headers: {
+            'Accept': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token,
+        },
+        url: "http://localhost:8080/accounts/" + id,
+        success: function (data) {
+            document.getElementById("idE").value = data.id;
+            document.getElementById("usernameE").value = data.username;
+            document.getElementById("passwordE").value = data.password;
+            document.getElementById("fullNameE").value = data.fullName;
+            document.getElementById("imgE").value = data.img;
+            document.getElementById("phoneE").value = data.phone;
+            document.getElementById("addressE").value = data.address;
+            document.getElementById("idRoleE").value = data.role.id;
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    });
+}
 
 function edit() {
     let id = document.getElementById("idE").value;
     let username = document.getElementById("usernameE").value;
     let password = document.getElementById("passwordE").value;
+    let fullName = document.getElementById("fullNameE").value;
+    let img = document.getElementById("imgE").value;
+    let phone = document.getElementById("phoneE").value;
+    let address = document.getElementById("addressE").value;
     let idRole = document.getElementById("idRoleE").value;
 
-    let account = {id, username, password, role: {id: idRole}};
+    let account = {id, username, password, fullName, img, phone, address, role: {id: idRole}};
 
     $.ajax({
         type: "Post",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token,
+
         },
         url: "http://localhost:8080/accounts",
         data: JSON.stringify(account),
@@ -96,14 +131,15 @@ function add() {
     });
 
 }
-function search(){
+
+function search() {
     let search = $("#search").val();
     $.ajax({
         type: "GET",
         headers: {
             'Accept': 'application/json',
         },
-        url: "http://localhost:8080/accounts/search?name="+ search,
+        url: "http://localhost:8080/accounts/search?name=" + search,
         success: function (data) {
             show(data);
         },
