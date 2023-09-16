@@ -1,5 +1,6 @@
 let accountLogin = JSON.parse(localStorage.getItem("AccountToken"));
 showEdit(accountLogin.id)
+
 function showEdit(id) {
     $.ajax({
         type: "GET",
@@ -16,7 +17,6 @@ function showEdit(id) {
             document.getElementById("imgE").value = data.img;
             document.getElementById("phoneE").value = data.phone;
             document.getElementById("addressE").value = data.address;
-            document.getElementById("idRoleE").value = data.role.id;
         },
         error: function (err) {
             console.log(err)
@@ -32,7 +32,7 @@ function edit() {
     let img = document.getElementById("imgE").value;
     let phone = document.getElementById("phoneE").value;
     let address = document.getElementById("addressE").value;
-    let idRole = document.getElementById("idRoleE").value;
+    let idRole = 1;
 
     let account = {id, username, password, fullName, img, phone, address, role: {id: idRole}};
 
@@ -46,7 +46,7 @@ function edit() {
         url: "http://localhost:8080/accounts",
         data: JSON.stringify(account),
         success: function (data) {
-            getAll();
+            window.location.href = "index.html"
         },
         error: function (err) {
             console.log(err)

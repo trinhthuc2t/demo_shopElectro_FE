@@ -20,7 +20,6 @@ function getAll() {
     });
 }
 
-getAll();
 
 function show(arr) {
     let str = "";
@@ -126,6 +125,7 @@ function edit() {
 // }
 function getAllNameSearch() {
     let name = document.getElementById("search").value;
+    if (name !== ""){
     return $.ajax({
         type: "Get",
         headers: {
@@ -139,6 +139,9 @@ function getAllNameSearch() {
         error: function () {
             console.log(err)
         }
-    });
+    });}else {
+        getAll()
+    }
 
 }
+getAll()
