@@ -1,4 +1,4 @@
-let accountLogin = JSON.parse(localStorage.getItem("AccountToken"));
+const accountLogin = JSON.parse(localStorage.getItem("AccountToken"));
 const urlSearchParams = new URLSearchParams(window.location.search);
 const idPro = urlSearchParams.get('id');
 
@@ -191,4 +191,88 @@ if (accountLogin !== null) {
 } else {
     logoutButton.style.display = "none";
     loginButton.style.display = "inline-block";
+}
+
+
+function getAllCmt(id) {
+
+    return $.ajax({
+        type: "Get",
+        headers: {
+            'Accept': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token
+
+        },
+        url: "http://localhost:8080/cmt/" + id,
+        success: function (data) {
+            showCmt(data)
+            console.log(data)
+
+        },
+        error: function () {
+            console.log(err)
+        }
+    });
+
+}
+
+getAllCmt(idPro)
+function showCmt(arr) {
+let name = accountLogin.fullName
+    let str = "";
+    for (const a of arr) {
+        str += `
+               <li>
+              <div class="review-heading">
+               <h5 class="name">${name}</h5>
+               <p class="date">${a.createdAt}</p>
+               <div class="review-rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o empty"></i>
+               </div>
+              </div>
+              <div class="review-body">
+               <p>${a.cmt}</p>
+              </div>
+             </li>
+
+`
+    }
+    document.getElementById("cmt").innerHTML = str;
+}
+
+function saveCmt() {
+    let username = accountLogin.username;
+    let cmt = document.getElementById("input-cmt").value;
+    let createdAt = getDateTimeNow();
+    let id = idPro;
+
+    let comment = {cmt,createdAt, account:{username}, product: {id}}
+    return $.ajax({
+        type: "Post",
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token
+
+        },
+
+        url: "http://localhost:8080/cmt/" + id,
+        data: JSON.stringify(comment),
+        success: function (data) {
+            window.location.href = "product.html?id="+idPro;
+            showCmt(data)
+
+        },
+        error: function () {
+            console.log(err)
+        }
+    });
+
+}
+function getDateTimeNow() {
+    let tzOffset = (new Date()).getTimezoneOffset() * 60000;
+    return (new Date(Date.now() - tzOffset)).toISOString().slice(0, -1);
 }
