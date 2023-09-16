@@ -1,4 +1,5 @@
 let cart = localStorage.getItem("cart") == null ? [] : JSON.parse(localStorage.getItem("cart"));
+let accountLogin = JSON.parse(localStorage.getItem("AccountToken"));
 
 function showCart() {
     let str = '';

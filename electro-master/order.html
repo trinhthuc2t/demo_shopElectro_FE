@@ -48,7 +48,7 @@
       </ul>
       <ul class="header-links pull-right">
         <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-        <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+        <li><a href="editacc.html"><i class="fa fa-user-o"></i> My Account</a></li>
         <button id="logout-button">Logout</button>
 
       </ul>
@@ -65,7 +65,7 @@
         <!-- LOGO -->
         <div class="col-md-3">
           <div class="header-logo">
-            <a href="#" class="logo">
+            <a href="index.html" class="logo">
               <img src="./img/logo.png" alt="">
             </a>
           </div>
@@ -259,22 +259,24 @@
           <a href="admProduct.html">Product</a>
         </button>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-          <a href="">Account</a>
+          <a href="acount.html">Account</a>
         </button>
         <button type="button" class="btn btn-primary">
           <a href="">Hóa đơn</a>
         </button>
 
 
-        <table class="table table-striped">
+        <table class="table table-striped"   style="font-size: 18px" >
 
 
           <thead>
           <tr>
             <th>#</th>
-            <th>Thành phố</th>
-            <th>Quốc gia</th>
-            <th colspan="2">Action</th>
+            <th>Tên người mua</th>
+            <th>Địa chỉ</th>
+            <th>Số điện thoại</th>
+            <th>Tổng tiền</th>
+            <th>Thời gian mua</th>
           </tr>
           </thead>
           <tbody id="show">
@@ -283,23 +285,37 @@
           </tbody>
         </table>
 
-        <div class="modal fade" id="exampleModalI" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModalOder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabelI">Info</h5>
+                <h5 class="modal-title" id="exampleModalLabelOder">Chi tiết đơn hàng</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <p id="nameI"></p>
-                <p id="acreageI"></p>
-                <p id="populationI"></p>
-                <p id="gdpI"></p>
-                <p id="describesI"></p>
-                <p id="countryI"></p>
+                <table class="table table-striped">
 
+
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Tên người mua</th>
+                    <th>Địa chỉ</th>
+                    <th>Số điện thoại</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá tiền</th>
+                    <th>Ngày xuất  hóa đơn</th>
+                    <th>Tổng tiền</th>
+                  </tr>
+                  </thead>
+                  <tbody id="showDetail" style="font-size: 18px">
+
+
+                  </tbody>
+                </table>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -785,6 +801,8 @@
 
   <!-- jQuery Plugins -->
   <script src="js/jquery.min.js"></script>
+  <script src="js/order.js"></script>
+  <script src="js/editacc.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/slick.min.js"></script>
   <script src="js/nouislider.min.js"></script>
@@ -794,4 +812,3 @@
 </body>
 </html>
 
-<script src="js/order.js"></script>

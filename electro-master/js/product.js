@@ -2,14 +2,15 @@ const accountLogin = JSON.parse(localStorage.getItem("AccountToken"));
 const urlSearchParams = new URLSearchParams(window.location.search);
 const idPro = urlSearchParams.get('id');
 
-function checkToken(id){
-    if (accountLogin !== null){
+function checkToken(id) {
+    if (accountLogin !== null) {
         addCart(id)
-    }else {
+    } else {
         alert("Đăng nhập để thêm giỏ hàng")
         window.location.href = "login.html";
     }
 }
+
 function getAllImgPro(id) {
 
     return $.ajax({
@@ -129,7 +130,7 @@ function addCart(id) {
         url: "http://localhost:8080/products/by/" + id,
         success: function (data) {
             let quantity2 = 1;
-                 quantity2 = +document.getElementById("quantityOrder").value
+            quantity2 = +document.getElementById("quantityOrder").value
             if (quantity2 > 0) {
                 let index = checkProductToCart(id);
                 if (index === -1) {
@@ -168,8 +169,9 @@ function showCartList(arr) {
     let sum = 0;
     let cartLength = 0
     let str = "";
-    for (let i = 0; i < arr.length; i++) {
-        str += `  
+    if (arr !== null) {
+        for (let i = 0; i < arr.length; i++) {
+            str += `  
            <div class="product-widget">
             <div class="product-img">
              <img src="${arr[i].img}" alt="">
@@ -181,15 +183,16 @@ function showCartList(arr) {
             <button class="delete"><i class="fa fa-close"></i></button>
            </div>
 `
-        sum += arr[i].quantity * arr[i].price
-        cartLength = arr.length;
+            sum += arr[i].quantity * arr[i].price
+            cartLength = arr.length;
 
+        }
     }
+
     document.getElementById("sum").innerText = sum;
     document.getElementById("quantityCart").innerText = cartLength;
     document.getElementById("cart-list").innerHTML = str;
 }
-
 
 
 function getAllCmt(id) {
@@ -213,14 +216,14 @@ function getAllCmt(id) {
 }
 
 getAllCmt(idPro)
+
 function showCmt(arr) {
-let name = accountLogin.fullName
     let str = "";
     for (const a of arr) {
         str += `
                <li>
               <div class="review-heading">
-               <h5 class="name">${name}</h5>
+               <h5 class="name">${a.account.fullName}</h5>
                <p class="date">${a.createdAt}</p>
                <div class="review-rating">
                 <i class="fa fa-star"></i>
@@ -240,13 +243,25 @@ let name = accountLogin.fullName
     document.getElementById("cmt").innerHTML = str;
 }
 
+
+function checkAcc(){
+    if (accountLogin !== null){
+        saveCmt();
+    }else {
+        alert("Đăng nhập để comment")
+        window.location.href = "login.html";
+
+    }
+}
+
 function saveCmt() {
+
     let username = accountLogin.username;
     let cmt = document.getElementById("input-cmt").value;
     let createdAt = getDateTimeNow();
     let id = idPro;
 
-    let comment = {cmt,createdAt, account:{username}, product: {id}}
+    let comment = {cmt, createdAt, account: {username}, product: {id}}
     return $.ajax({
         type: "Post",
         headers: {
@@ -258,7 +273,7 @@ function saveCmt() {
         url: "http://localhost:8080/cmt/" + id,
         data: JSON.stringify(comment),
         success: function (data) {
-            window.location.href = "product.html?id="+idPro;
+            window.location.href = "product.html?id=" + idPro;
             showCmt(data)
 
         },
@@ -268,6 +283,7 @@ function saveCmt() {
     });
 
 }
+
 function getDateTimeNow() {
     let tzOffset = (new Date()).getTimezoneOffset() * 60000;
     return (new Date(Date.now() - tzOffset)).toISOString().slice(0, -1);

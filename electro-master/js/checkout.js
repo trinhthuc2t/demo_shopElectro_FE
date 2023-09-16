@@ -68,7 +68,7 @@ function addOrder() {
             'Accept': 'application/json',
             "Authorization": "Bearer " + accountLogin.token
         },
-        url: "http://localhost:8080/user/oder",
+        url: "http://localhost:8080/oder/user",
         data: JSON.stringify(cart),
         success: function (data) {
             alert("Mua hàng thành công")

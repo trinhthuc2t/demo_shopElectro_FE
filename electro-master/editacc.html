@@ -193,37 +193,40 @@
 
 
 <div class="container form-login"  >
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="user">Tên tài khoản</label>
-        <input type="text" class="form-control" placeholder="Tên tài khoản"  id="user">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="pass">Mật khẩu</label>
-        <input type="password" class="form-control" placeholder="Nhập mật khẩu"  id="pass">
-      </div>
+  <div class="form-row">
+   >
+      <input type="text" class="form-control" placeholder="Tên tài khoản"  id="idE">
+
+    <div class="form-group col-md-6">
+      <label for="usernameE">Tên tài khoản</label>
+      <input type="text" class="form-control" placeholder="Tên tài khoản"  id="usernameE">
     </div>
-    <div class="form-group">
-      <label for="name">Họ và tên</label>
-      <input type="text" class="form-control" id="name"  placeholder="Nhập họ tên đầy đủ">
+    <div class="form-group col-md-6">
+      <label for="passwordE">Mật khẩu</label>
+      <input type="password" class="form-control" placeholder="Nhập mật khẩu"  id="passwordE">
     </div>
-    <div class="form-group">
-      <label for="phone">Số điện thoại</label>
-      <input type="text" class="form-control" id="phone"  placeholder="Nhập số điện thoại">
+  </div>
+  <div class="form-group">
+    <label for="fullNameE">Họ và tên</label>
+    <input type="text" class="form-control" id="fullNameE"  placeholder="Nhập họ tên đầy đủ">
+  </div>
+  <div class="form-group">
+    <label for="phoneE">Số điện thoại</label>
+    <input type="text" class="form-control" id="phoneE"  placeholder="Nhập số điện thoại">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="imgE"Địa chỉ></label>
+      <input type="text" class="form-control" placeholder="Nhập địa chỉ" id="addressE">
     </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="img"Địa chỉ></label>
-        <input type="text" class="form-control" placeholder="Nhập địa chỉ" id="address">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="img"Ảnh></label>
-        <input type="text" class="form-control" placeholder="Url Ảnh"  id="img">
-      </div>
+    <div class="form-group col-md-6">
+      <label for="imgE"Ảnh></label>
+      <input type="text" class="form-control" placeholder="Url Ảnh"  id="imgE">
+    </div>
 
 
-    </div>
-    <button type="submit" class="btn btn-primary" onclick="add()">Sign in</button>
+  </div>
+  <button type="submit" class="btn btn-primary" onclick="edit()">Save</button>
 </div>
 
 
@@ -329,8 +332,7 @@
 
 <!-- jQuery Plugins -->
 <script src="js/jquery.min.js"></script>
-<script src="js/register.js"></script>
-
+<script src="js/editacc.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/slick.min.js"></script>
 <script src="js/nouislider.min.js"></script>

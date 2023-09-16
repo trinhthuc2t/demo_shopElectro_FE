@@ -9,10 +9,9 @@ function getAll() {
             "Authorization": "Bearer " + accountLogin.token,
 
         },
-        url: "http://localhost:8080/accounts",
+        url: "http://localhost:8080/accounts/admin",
         success: function (data) {
             show(data);
-            console.log(data)
         },
         error: function (err) {
             console.log(err)
@@ -29,7 +28,7 @@ function show(arr) {
         str += ` <tr>
               <td>${a.id}</td>
               <td>${a.username}</td>
-              <td>${a.password}</td>
+              <td><a href="order.html?id=${a.id}" >${a.fullName}</a></td>
               <td>${a.role.name}</td>
               <td><button type="button" class="btn btn-warning" onclick="showEdit(${a.id})" data-toggle="modal" data-target="#modalEdit" >Edit</button></td>
               <td><button type="button" class="btn btn-danger" onclick="deleteA(${a.id})" >Delete</button></td>
@@ -41,7 +40,7 @@ function show(arr) {
 function deleteA(idA) {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/accounts/delete/" + idA,
+        url: "http://localhost:8080/accounts/admin/delete/" + idA,
         "Authorization": "Bearer " + accountLogin.token,
 
         success: function (data) {
@@ -107,44 +106,39 @@ function edit() {
     });
 }
 
-function add() {
-    let id = document.getElementById("id").value;
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-    let idRole = document.getElementById("roleId").value;
 
-    let account = {id, username, password, role: {id: idRole}};
 
-    $.ajax({
-        type: "Post",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        url: "http://localhost:8080/accounts",
-        data: JSON.stringify(account),
-        success: function (data) {
-            getAll();
-        },
-        error: function (err) {
-            console.log(err)
-        }
-    });
-
-}
-
-function search() {
-    let search = $("#search").val();
-    $.ajax({
-        type: "GET",
+// function search() {
+//     let search = $("#search").val();
+//     $.ajax({
+//         type: "GET",
+//         headers: {
+//             'Accept': 'application/json',
+//         },
+//         url: "http://localhost:8080/admin/accounts/search?name=" + search,
+//         success: function (data) {
+//             show(data);
+//         },
+//         error: function (err) {
+//             console.log(err)
+//         }
+//     });
+// }
+function getAllNameSearch() {
+    let name = document.getElementById("search").value;
+    return $.ajax({
+        type: "Get",
         headers: {
             'Accept': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token,
         },
-        url: "http://localhost:8080/accounts/search?name=" + search,
+        url: "http://localhost:8080/accounts/admin/search/" + name,
         success: function (data) {
-            show(data);
+            show(data)
         },
-        error: function (err) {
+        error: function () {
             console.log(err)
         }
     });
+
 }

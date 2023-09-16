@@ -37,6 +37,24 @@ let name = document.getElementById("search").value;
     });
 
 }
+function getAllProductSearch() {
+let name = document.getElementById("search").value;
+    return $.ajax({
+        type: "Get",
+        headers: {
+            'Accept': 'application/json',
+
+        },
+        url: "http://localhost:8080/products/search/" + name,
+        success: function (data) {
+            showProduct(data)
+        },
+        error: function () {
+            console.log(err)
+        }
+    });
+
+}
 
 getAllProduct();
 
