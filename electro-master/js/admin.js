@@ -158,7 +158,6 @@ function edit() {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             "Authorization": "Bearer " + accountLogin.token,
-
         },
         url: "http://localhost:8080/products/admin",
         data: JSON.stringify(product),
@@ -181,8 +180,6 @@ function showEdit(id) {
         headers: {
             'Accept': 'application/json',
             "Authorization": "Bearer " + accountLogin.token,
-
-
         },
         url: "http://localhost:8080/products/admin/" + id,
         success: function (data) {
