@@ -57,7 +57,7 @@ function addOrder() {
     let dateTime = getDateTimeNow();
     let total = 0;
     for (let i = 0; i < carList.length; i++){
-        total = carList[i].quantity * carList[i].price;
+        total += carList[i].quantity * carList[i].price;
     }
     let idAcc = accountLogin.id;
     let cart = {dateTime, total, products: carList,idAcc}

@@ -230,7 +230,7 @@ function addCart(id) {
                 data.quantity = 1;
                 cart.push(data);
             } else {
-                cart[index].quantity = parseInt(cart[index].quantity);
+                cart[index].quantity += parseInt(cart[index].quantity);
             }
             alert("Thêm thành công")
 

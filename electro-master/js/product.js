@@ -137,7 +137,7 @@ function addCart(id) {
                     data.quantity = quantity2;
                     cart.push(data);
                 } else {
-                    cart[index].quantity = parseInt(cart[index].quantity) + quantity2;
+                    cart[index].quantity += parseInt(cart[index].quantity) + quantity2;
                 }
                 alert("Thêm thành công")
 
