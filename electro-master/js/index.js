@@ -296,9 +296,12 @@ const logoutButton = document.getElementById("logout-button");
 const loginButton = document.getElementById("login-button");
 
 if (accountLogin !== null) {
+
     logoutButton.style.display = "inline-block";
     loginButton.style.display = "none";
 } else {
     logoutButton.style.display = "none";
     loginButton.style.display = "inline-block";
 }
+
+

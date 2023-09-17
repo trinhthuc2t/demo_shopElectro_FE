@@ -65,24 +65,35 @@ function showOderByIdOrDerDetail(id) {
 }
 
 function showOrderDetail(arr) {
+    let name;
+    let address;
+    let phone;
+    let time;
+    let total;
     let str = "";
     for (let i = 0; i < arr.length; i++) {
         str += ` 
+       
         <tr>
-             
-            <td>${arr[i].id}</td>
-            <td>${arr[i].oder.account.fullName}</td>
-            <td>${arr[i].oder.account.address}</td>
-            <td>${arr[i].oder.account.phone}</td>
             <td>${arr[i].product.name}</td>
             <td>${arr[i].quantity}</td>
             <td>${arr[i].product.price}</td>
-            <td>${arr[i].oder.dateTime}</td>
-            <td>${arr[i].oder.total}</td>
+        </tr>
            
             `
+        name = arr[i].oder.account.fullName;
+        phone = arr[i].oder.account.phone;
+        address = arr[i].oder.account.address;
+        time = arr[0].oder.dateTime;
+        total = arr[0].oder.total;
     }
     document.getElementById("showDetail").innerHTML = str;
+    document.getElementById("name-acc").innerText = name;
+    document.getElementById("address-acc").innerText = address;
+    document.getElementById("phone-acc").innerText = phone;
+    document.getElementById("time-acc").innerText = time;
+    document.getElementById("total-acc").innerText = total;
+
 }
 
 function getOderByIdAcc(id) {
