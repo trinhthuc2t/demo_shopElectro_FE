@@ -53,14 +53,18 @@ function showCarOrder(arr) {
 };
 showCarOrder(carList);
 
+
+
+
 function addOrder() {
     let dateTime = getDateTimeNow();
     let total = 0;
-    for (let i = 0; i < carList.length; i++){
+    for (let i = 0; i < carList.length; i++) {
         total += carList[i].quantity * carList[i].price;
     }
     let idAcc = accountLogin.id;
-    let cart = {dateTime, total, products: carList,idAcc}
+    let cart = {dateTime, total, products: carList, idAcc}
+
     $.ajax({
         type: "Post",
         headers: {
@@ -71,18 +75,88 @@ function addOrder() {
         url: "http://localhost:8080/oder/user",
         data: JSON.stringify(cart),
         success: function (data) {
+            for (let a of carList) {
+                reduceProductQuantity(a.id, a.quantity)
+            }
             alert("Mua hàng thành công")
             localStorage.removeItem("cart")
             window.location.href = "index.html";
-
         },
         error: function (err) {
             console.log(err)
         }
     });
+}
+
+
+function reduceProductQuantity(productId, quantityToBuy) {
+     $.ajax({
+        url: "http://localhost:8080/oder/" + productId + "/" + quantityToBuy,
+        type: "post",
+        dataType: "json",
+         success: function (data){
+             console.log(data)
+         }
+    });
+}
+
+
+function getProductById(id) {
+
+    return $.ajax({
+        type: "GET",
+        headers: {
+            'Accept': 'application/json',
+            "Authorization": "Bearer " + accountLogin.token
+        },
+        url: "http://localhost:8080/products/by/" + id
+    });
 
 }
 
+// async function checkQuantityPro() {
+//     for (let a of carList) {
+//         let productDb = await getProductById(a.id);
+//         if (productDb.quantity >= a.quantity) {
+//             await reduceProductQuantity(a.id, a.quantity)
+//         } else {
+//             alert("Mua hàng thất bai: Hết hàng")
+//             return;
+//         }
+//     }
+//
+//     alert("Mua hàng thành công")
+//     localStorage.removeItem("cart")
+//
+// }
+//
+// function addOrder() {
+//     let dateTime = getDateTimeNow();
+//     let total = 0;
+//     for (let i = 0; i < carList.length; i++) {
+//         total += carList[i].quantity * carList[i].price;
+//     }
+//     let idAcc = accountLogin.id;
+//     let cart = {dateTime, total, products: carList, idAcc}
+//
+//     $.ajax({
+//         type: "Post",
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json',
+//             "Authorization": "Bearer " + accountLogin.token
+//         },
+//         url: "http://localhost:8080/oder/user",
+//         data: JSON.stringify(cart),
+//         success: function (data) {
+//             checkQuantityPro().then();
+//             window.location.href = "index.html";
+//         },
+//         error: function (err) {
+//             console.log(err)
+//         }
+//     });
+// }
 
 
 function logoutAndRedirect() {
@@ -104,7 +178,6 @@ function getDateTimeNow() {
 }
 
 
-
 const logoutButton = document.getElementById("logout-button");
 const loginButton = document.getElementById("login-button");
 
@@ -115,3 +188,5 @@ if (accountLogin !== null) {
     logoutButton.style.display = "none";
     loginButton.style.display = "inline-block";
 }
+
+

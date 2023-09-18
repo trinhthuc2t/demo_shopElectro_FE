@@ -94,7 +94,7 @@ function edit() {
             "Authorization": "Bearer " + accountLogin.token,
 
         },
-        url: "http://localhost:8080/accounts",
+        url: "http://localhost:8080/accounts/admin",
         data: JSON.stringify(account),
         success: function (data) {
             getAll();
@@ -145,3 +145,56 @@ function getAllNameSearch() {
 
 }
 getAll()
+function getRole() {
+
+    $.ajax({
+        type: "Get",
+        headers: {
+            'Accept': 'application/json',
+
+        },
+        url: "http://localhost:8080/roles",
+        success: function (data) {
+            showRole(data)
+            console.log(data)
+        },
+        error: function () {
+            console.log(err)
+        }
+    });
+
+}
+
+function showRole(arr) {
+    let str = "";
+    for (let i = 0; i < arr.length; i++) {
+        str += `<option value="${arr[i].id}">${arr[i].name}</option>`
+    }
+    document.getElementById("idRoleE").innerHTML = str;
+}
+
+
+getRole();
+
+$("#logout-button").click(function () {
+    logoutAndRedirect();
+});
+
+function getDateTimeNow() {
+    let tzOffset = (new Date()).getTimezoneOffset() * 60000;
+    return (new Date(Date.now() - tzOffset)).toISOString().slice(0, -1);
+}
+
+
+const logoutButton = document.getElementById("logout-button");
+const loginButton = document.getElementById("login-button");
+
+if (accountLogin !== null) {
+    logoutButton.style.display = "inline-block";
+    loginButton.style.display = "none";
+} else {
+    logoutButton.style.display = "none";
+    loginButton.style.display = "inline-block";
+}
+
+

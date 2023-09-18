@@ -4,18 +4,22 @@ function add() {
     let fullName = document.getElementById("name").value;
     let phone = document.getElementById("phone").value;
     let address = document.getElementById("address").value;
-    let img = document.getElementById("img").value;
-    let idRole =1;
+    let form = new FormData();
+    let file = document.getElementById("img").files[0];
+    form.append("file", file);
+    form.append("username", username);
+    form.append("password", password);
+    form.append("fullName", fullName);
+    form.append("phone", phone);
+    form.append("address", address);
 
-    let account = { username, password,fullName,img,phone,address, role: {id: idRole}};
 
     $.ajax({
         type: "Post",
-        headers: {
-            'Content-Type': 'application/json',
-        },
         url: "http://localhost:8080/accounts",
-        data: JSON.stringify(account),
+        data:form,
+        contentType: false,
+        processData: false,
         success: function (data) {
             location.href = "login.html";
         },
@@ -24,4 +28,10 @@ function add() {
         }
     });
 
+}
+function showImageRegister() {
+    let [file] = document.getElementById('img').files;
+    if (file) {
+        $("#fileImg").attr("src", URL.createObjectURL(file));
+    }
 }

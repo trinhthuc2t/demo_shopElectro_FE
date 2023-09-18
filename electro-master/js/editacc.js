@@ -14,7 +14,6 @@ function showEdit(id) {
             document.getElementById("usernameE").value = data.username;
             document.getElementById("passwordE").value = data.password;
             document.getElementById("fullNameE").value = data.fullName;
-            document.getElementById("imgE").value = data.img;
             document.getElementById("phoneE").value = data.phone;
             document.getElementById("addressE").value = data.address;
         },
@@ -29,27 +28,41 @@ function edit() {
     let username = document.getElementById("usernameE").value;
     let password = document.getElementById("passwordE").value;
     let fullName = document.getElementById("fullNameE").value;
-    let img = document.getElementById("imgE").value;
     let phone = document.getElementById("phoneE").value;
     let address = document.getElementById("addressE").value;
-    let idRole = 1;
+    let form = new FormData();
+    let file = document.getElementById("imgE").files[0];
+    form.append("file", file);
+    form.append("id", id);
+    form.append("username", username);
+    form.append("password", password);
+    form.append("fullName", fullName);
+    form.append("phone", phone);
+    form.append("address", address);
 
-    let account = {id, username, password, fullName, img, phone, address, role: {id: idRole}};
 
     $.ajax({
         type: "Post",
-        headers: {
-            'Content-Type': 'application/json',
-            "Authorization": "Bearer " + accountLogin.token,
-
-        },
         url: "http://localhost:8080/accounts",
-        data: JSON.stringify(account),
+        data:form,
+        contentType: false,
+        processData: false,
         success: function (data) {
+            accountLogin.fullName = fullName;
+            accountLogin.address = address;
+            accountLogin.phone = phone;
+            if (file) accountLogin.img = file.name;
+            localStorage.setItem("AccountToken", JSON.stringify(accountLogin));
             window.location.href = "index.html"
         },
         error: function (err) {
             console.log(err)
         }
     });
+}
+function showImageEditProfile() {
+    let [file] = document.getElementById('imageE').files;
+    if (file) {
+        $("#imageNow").attr("src", URL.createObjectURL(file));
+    }
 }

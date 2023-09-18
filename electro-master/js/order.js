@@ -8,9 +8,7 @@ function getAll() {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-
             "Authorization": "Bearer " + accountLogin.token,
-
         },
         url: "http://localhost:8080/oder/admin",
         success: function (data) {

@@ -19,8 +19,9 @@ function getAllProduct() {
     });
 
 }
+
 function getAllProductSearch() {
-let name = document.getElementById("search").value;
+    let name = document.getElementById("search").value;
     return $.ajax({
         type: "Get",
         headers: {
@@ -37,27 +38,9 @@ let name = document.getElementById("search").value;
     });
 
 }
-function getAllProductSearch() {
-let name = document.getElementById("search").value;
-    return $.ajax({
-        type: "Get",
-        headers: {
-            'Accept': 'application/json',
 
-        },
-        url: "http://localhost:8080/products/search/" + name,
-        success: function (data) {
-            showProduct(data)
-        },
-        error: function () {
-            console.log(err)
-        }
-    });
-
-}
 
 getAllProduct();
-
 
 
 function getAllProductByCategoryId(idCategory) {
@@ -78,6 +61,7 @@ function getAllProductByCategoryId(idCategory) {
     });
 
 }
+
 function getAllProductByBrandId(idBrand) {
 
     $.ajax({
@@ -108,62 +92,63 @@ function getAllCategory() {
         },
         url: "http://localhost:8080/products/category",
         success: function (data) {
-           showCategory(data)
+            showCategory(data)
         },
         error: function () {
             console.log(err)
         }
     });
 }
-    function showCategory(arr) {
-        let str = "";
-        for (const a of arr) {
-            str += `
+
+function showCategory(arr) {
+    let str = "";
+    for (const a of arr) {
+        str += `
         <li><a data-toggle="tab"  onclick="getAllProductByCategoryId(${a.id})">${a.name}</a></li>
         `
+    }
+    document.getElementById("listCategory").innerHTML = str;
+}
+
+
+getAllCategory();
+
+function getAllBrand() {
+
+    $.ajax({
+        type: "Get",
+        headers: {
+            'Accept': 'application/json',
+
+        },
+        url: "http://localhost:8080/products/brand",
+        success: function (data) {
+            showBrand(data)
+        },
+        error: function () {
+            console.log(err)
         }
-        document.getElementById("listCategory").innerHTML = str;
-    }
+    });
+
+}
+
+getAllBrand();
 
 
-    getAllCategory();
-
-    function getAllBrand() {
-
-        $.ajax({
-            type: "Get",
-            headers: {
-                'Accept': 'application/json',
-
-            },
-            url: "http://localhost:8080/products/brand",
-            success: function (data) {
-                showBrand(data)
-            },
-            error: function () {
-                console.log(err)
-            }
-        });
-
-    }
-
-    getAllBrand();
-
-
-    function showBrand(arr) {
-        let str = "";
-        for (const a of arr) {
-            str += `<option onclick="getAllProductByBrandId(${a.id})">${a.name}</option>
+function showBrand(arr) {
+    let str = "";
+    for (const a of arr) {
+        str += `<option onclick="getAllProductByBrandId(${a.id})">${a.name}</option>
 `
-        }
-        document.getElementById("listBrand").innerHTML = str;
     }
+    document.getElementById("listBrand").innerHTML = str;
+}
 
 
-    function showProduct(arr) {
-        let str = "";
-        for (const a of arr) {
-            str += `
+function showProduct(arr) {
+    let str = "";
+    for (const a of arr) {
+        str += `
                                 <div class="product slick-slide slick-current slick-active" style="width: 260px">
                                     <div class="product-img" style="height: 200px">
                                         <img src="${a.img}" alt="">
@@ -194,9 +179,9 @@ function getAllCategory() {
                                     </div>
                                 </div>`
 
-        }
-        document.getElementById("showProduct").innerHTML = str;
     }
+    document.getElementById("showProduct").innerHTML = str;
+}
 
 
 let cart = localStorage.getItem("cart") == null ? [] : JSON.parse(localStorage.getItem("cart"));
@@ -206,14 +191,15 @@ let arr2 = JSON.parse(localStorage.getItem("list"));
 showProduct(arr2);
 
 
-function checkToken(id){
-    if (accountLogin !== null){
+function checkToken(id) {
+    if (accountLogin !== null) {
         addCart(id)
-    }else {
+    } else {
         alert("Đăng nhập để thêm giỏ hàng")
         window.location.href = "login.html";
     }
 }
+
 function addCart(id) {
     $.ajax({
         type: "GET",
@@ -225,16 +211,27 @@ function addCart(id) {
         },
         url: "http://localhost:8080/products/by/" + id,
         success: function (data) {
-            let index = checkProductToCart(id);
-            if (index === -1) {
-                data.quantity = 1;
-                cart.push(data);
-            } else {
-                cart[index].quantity += parseInt(cart[index].quantity);
-            }
-            alert("Thêm thành công")
 
-            localStorage.setItem("cart", JSON.stringify(cart));
+                let quantityToCart = 1;
+                if (data.quantity >= quantityToCart) {
+                    if (quantityToCart > 0) {
+                        let index = checkProductToCart(id);
+                        if (index === -1) {
+                            data.quantity = quantityToCart;
+                            cart.push(data);
+                        } else {
+                            cart[index].quantity = parseInt(cart[index].quantity) + quantityToCart;
+                        }
+                        alert("Thêm thành công")
+
+                        localStorage.setItem("cart", JSON.stringify(cart));
+                    } else {
+                        alert("Nhập lại số lượng lớn hơn 0")
+                    }
+                } else {
+                    alert("Số lượng không đủ")
+                }
+
         },
 
         error: function (err) {
@@ -242,6 +239,7 @@ function addCart(id) {
         }
     });
 }
+
 function checkProductToCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id == id) {
@@ -250,7 +248,9 @@ function checkProductToCart(id) {
     }
     return -1;
 }
+
 showCartList(cart)
+
 function showCartList(arr) {
     let sum = 0;
     let cartLength = 0

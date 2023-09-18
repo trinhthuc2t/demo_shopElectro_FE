@@ -26,14 +26,7 @@ function deleteCart(index) {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function checkProductToCart(id) {
-    for (let i = 0; i < cart.length; i++) {
-        if (cart[i].id == id) {
-            return i;
-        }
-    }
-    return -1;
-}
+
 showCartList(cart)
 function showCartList(arr) {
     let sum = 0;

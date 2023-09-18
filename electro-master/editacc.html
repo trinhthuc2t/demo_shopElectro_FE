@@ -216,12 +216,15 @@
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="imgE"Địa chỉ></label>
+      <label for="addressE"Địa chỉ></label>
       <input type="text" class="form-control" placeholder="Nhập địa chỉ" id="addressE">
     </div>
     <div class="form-group col-md-6">
-      <label for="imgE"Ảnh></label>
-      <input type="text" class="form-control" placeholder="Url Ảnh"  id="imgE">
+      <label for="imgE">Ảnh</label>
+      <input type="file" class="form-control" placeholder=" Ảnh" onchange="showImageEditProfile()" id="imgE">
+      <div class="form-outline col-md-4 mb-2">
+        <img id="fileImgE" src="" width="100px" alt="" >
+      </div>
     </div>
 
 

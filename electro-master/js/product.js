@@ -129,21 +129,28 @@ function addCart(id) {
         },
         url: "http://localhost:8080/products/by/" + id,
         success: function (data) {
-            let quantity2 = 1;
-            quantity2 = +document.getElementById("quantityOrder").value
-            if (quantity2 > 0) {
-                let index = checkProductToCart(id);
-                if (index === -1) {
-                    data.quantity = quantity2;
-                    cart.push(data);
-                } else {
-                    cart[index].quantity += parseInt(cart[index].quantity) + quantity2;
-                }
-                alert("Thêm thành công")
+            let quantityToCart = 1;
+            quantityToCart = +document.getElementById("quantityOrder").value
+            if (quantityToCart > 0) {
+                if (data.quantity >= quantityToCart) {
+                    let index = checkProductToCart(id);
+                    if (index === -1) {
+                        data.quantity = quantityToCart;
+                        cart.push(data);
+                    } else {
+                        cart[index].quantity = parseInt(cart[index].quantity) + quantityToCart;
+                    }
+                    alert("Thêm thành công")
 
-                localStorage.setItem("cart", JSON.stringify(cart));
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                } else {
+                    alert("Số lượng không đủ")
+
+
+                }
             } else {
                 alert("Nhập lại số lượng lớn hơn 0")
+
             }
 
         },
@@ -152,6 +159,7 @@ function addCart(id) {
         }
     });
 }
+
 
 function checkProductToCart(id) {
     for (let i = 0; i < cart.length; i++) {
@@ -205,7 +213,6 @@ function getAllCmt(id) {
         url: "http://localhost:8080/cmt/" + id,
         success: function (data) {
             showCmt(data)
-            console.log(data)
 
         },
         error: function () {
@@ -220,11 +227,12 @@ getAllCmt(idPro)
 function showCmt(arr) {
     let str = "";
     for (const a of arr) {
+        let createTime = pastTime(a.createdAt);
         str += `
                <li>
               <div class="review-heading">
                <h5 class="name">${a.account.fullName}</h5>
-               <p class="date">${a.createdAt}</p>
+               <p class="date">${createTime}</p>
                <div class="review-rating">
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
@@ -244,10 +252,10 @@ function showCmt(arr) {
 }
 
 
-function checkAcc(){
-    if (accountLogin !== null){
+function checkAcc() {
+    if (accountLogin !== null) {
         saveCmt();
-    }else {
+    } else {
         alert("Đăng nhập để comment")
         window.location.href = "login.html";
 
@@ -283,7 +291,26 @@ function saveCmt() {
     });
 
 }
-
+function pastTime(sqlDatetime) {
+    let sqlTimestamp = new Date(sqlDatetime).getTime();
+    let currentTime = new Date().getTime();
+    let elapsedHTML;
+    let elapsedMilliseconds = currentTime - sqlTimestamp;
+    let years = Math.floor(elapsedMilliseconds / (86400000 * 365));
+    let months = Math.floor(elapsedMilliseconds / (86400000 * 30));
+    let weeks = Math.floor(elapsedMilliseconds / (86400000 * 7));
+    let days = Math.floor(elapsedMilliseconds / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((elapsedMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((elapsedMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    if (years) elapsedHTML = years + " năm";
+    else if (months) elapsedHTML = months + " tháng";
+    else if (weeks) elapsedHTML = weeks + " tuần";
+    else if (days) elapsedHTML = days + " ngày";
+    else if (hours) elapsedHTML = hours + " giờ";
+    else if (minutes) elapsedHTML = minutes + " phút";
+    else elapsedHTML = " Vừa xong";
+    return elapsedHTML;
+}
 function getDateTimeNow() {
     let tzOffset = (new Date()).getTimezoneOffset() * 60000;
     return (new Date(Date.now() - tzOffset)).toISOString().slice(0, -1);
